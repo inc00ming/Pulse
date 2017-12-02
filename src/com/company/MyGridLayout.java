@@ -11,6 +11,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.company.Grade.*;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
@@ -166,9 +168,13 @@ public class MyGridLayout {
         previousCGPAText.setText("0.00");
         previousTotalCreditText.setText("0");
         newCGPAText.setText("0.00");
+        newCGPAText.setEditable(false);
         newGPAText.setText("0.00");
+        newGPAText.setEditable(false);
         totalACTSofSemester.setText("0");
+        totalACTSofSemester.setEditable(false);
         totalCreditofSemester.setText("0");
+        totalCreditofSemester.setEditable(false);
     }
 
     public void addCourse(Course c){
@@ -216,6 +222,7 @@ public class MyGridLayout {
                 String courseCode = courseName0.getItemAt(courseName0.getSelectedIndex()).toString();
                 Course c = Course.findCourse(courseCode);
                 credit0.setText(Integer.toString(c.getCourseCredit()));
+                totalCreditofSemester.setText(totalSemesterCredit());
             }
         });
 
@@ -225,6 +232,7 @@ public class MyGridLayout {
                 String courseCode = courseName1.getItemAt(courseName1.getSelectedIndex()).toString();
                 Course c = Course.findCourse(courseCode);
                 credit1.setText(Integer.toString(c.getCourseCredit()));
+                totalCreditofSemester.setText(totalSemesterCredit());
             }
         });
 
@@ -234,6 +242,7 @@ public class MyGridLayout {
                 String courseCode = courseName2.getItemAt(courseName2.getSelectedIndex()).toString();
                 Course c = Course.findCourse(courseCode);
                 credit2.setText(Integer.toString(c.getCourseCredit()));
+                totalCreditofSemester.setText(totalSemesterCredit());
             }
         });
 
@@ -243,6 +252,7 @@ public class MyGridLayout {
                 String courseCode = courseName3.getItemAt(courseName3.getSelectedIndex()).toString();
                 Course c = Course.findCourse(courseCode);
                 credit3.setText(Integer.toString(c.getCourseCredit()));
+                totalCreditofSemester.setText(totalSemesterCredit());
             }
         });
 
@@ -252,6 +262,7 @@ public class MyGridLayout {
                 String courseCode = courseName4.getItemAt(courseName4.getSelectedIndex()).toString();
                 Course c = Course.findCourse(courseCode);
                 credit4.setText(Integer.toString(c.getCourseCredit()));
+                totalCreditofSemester.setText(totalSemesterCredit());
             }
         });
 
@@ -261,6 +272,7 @@ public class MyGridLayout {
                 String courseCode = courseName5.getItemAt(courseName5.getSelectedIndex()).toString();
                 Course c = Course.findCourse(courseCode);
                 credit5.setText(Integer.toString(c.getCourseCredit()));
+                totalCreditofSemester.setText(totalSemesterCredit());
             }
         });
 
@@ -270,6 +282,7 @@ public class MyGridLayout {
                 String courseCode = courseName6.getItemAt(courseName6.getSelectedIndex()).toString();
                 Course c = Course.findCourse(courseCode);
                 credit6.setText(Integer.toString(c.getCourseCredit()));
+                totalCreditofSemester.setText(totalSemesterCredit());
             }
         });
 
@@ -279,6 +292,7 @@ public class MyGridLayout {
                 String courseCode = courseName7.getItemAt(courseName7.getSelectedIndex()).toString();
                 Course c = Course.findCourse(courseCode);
                 credit7.setText(Integer.toString(c.getCourseCredit()));
+                totalCreditofSemester.setText(totalSemesterCredit());
             }
         });
 
@@ -288,6 +302,7 @@ public class MyGridLayout {
                 String courseCode = courseName8.getItemAt(courseName8.getSelectedIndex()).toString();
                 Course c = Course.findCourse(courseCode);
                 credit8.setText(Integer.toString(c.getCourseCredit()));
+                totalCreditofSemester.setText(totalSemesterCredit());
             }
         });
 
@@ -297,6 +312,7 @@ public class MyGridLayout {
                 String courseCode = courseName9.getItemAt(courseName9.getSelectedIndex()).toString();
                 Course c = Course.findCourse(courseCode);
                 credit9.setText(Integer.toString(c.getCourseCredit()));
+                totalCreditofSemester.setText(totalSemesterCredit());
             }
         });
 
@@ -466,6 +482,31 @@ public class MyGridLayout {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<String> selectedCourses = new ArrayList<String>();
+                if(!courseName0.getItemAt(courseName0.getSelectedIndex()).toString().equals("None"))
+                    selectedCourses.add(courseName0.getItemAt(courseName0.getSelectedIndex()).toString());
+                if(!courseName1.getItemAt(courseName1.getSelectedIndex()).toString().equals("None"))
+                    selectedCourses.add(courseName1.getItemAt(courseName1.getSelectedIndex()).toString());
+                if(!courseName2.getItemAt(courseName2.getSelectedIndex()).toString().equals("None"))
+                    selectedCourses.add(courseName2.getItemAt(courseName2.getSelectedIndex()).toString());
+                if(!courseName3.getItemAt(courseName3.getSelectedIndex()).toString().equals("None"))
+                    selectedCourses.add(courseName3.getItemAt(courseName3.getSelectedIndex()).toString());
+                if(!courseName4.getItemAt(courseName4.getSelectedIndex()).toString().equals("None"))
+                    selectedCourses.add(courseName4.getItemAt(courseName4.getSelectedIndex()).toString());
+                if(!courseName5.getItemAt(courseName5.getSelectedIndex()).toString().equals("None"))
+                    selectedCourses.add(courseName5.getItemAt(courseName5.getSelectedIndex()).toString());
+                if(!courseName6.getItemAt(courseName6.getSelectedIndex()).toString().equals("None"))
+                    selectedCourses.add(courseName6.getItemAt(courseName6.getSelectedIndex()).toString());
+                if(!courseName7.getItemAt(courseName7.getSelectedIndex()).toString().equals("None"))
+                    selectedCourses.add(courseName7.getItemAt(courseName7.getSelectedIndex()).toString());
+                if(!courseName8.getItemAt(courseName8.getSelectedIndex()).toString().equals("None"))
+                    selectedCourses.add(courseName8.getItemAt(courseName8.getSelectedIndex()).toString());
+                if(!courseName9.getItemAt(courseName9.getSelectedIndex()).toString().equals("None")) {
+                    selectedCourses.add(courseName9.getItemAt(courseName9.getSelectedIndex()).toString());
+                }
+                Set<String> set = new HashSet<String>(selectedCourses);
+                if(set.size() < selectedCourses.size()){
+                    JOptionPane.showMessageDialog(f, "You add same courses, please remove duplicates!", "Duplicate Courses",JOptionPane.ERROR_MESSAGE);
+                }
 
             }
         });
@@ -559,5 +600,20 @@ public class MyGridLayout {
                 }
             }
         });
+    }
+
+    private String totalSemesterCredit(){
+        int n = 0;
+        n += Integer.parseInt(credit0.getText());
+        n += Integer.parseInt(credit1.getText());
+        n += Integer.parseInt(credit2.getText());
+        n += Integer.parseInt(credit3.getText());
+        n += Integer.parseInt(credit4.getText());
+        n += Integer.parseInt(credit5.getText());
+        n += Integer.parseInt(credit6.getText());
+        n += Integer.parseInt(credit7.getText());
+        n += Integer.parseInt(credit8.getText());
+        n += Integer.parseInt(credit9.getText());
+        return Integer.toString(n);
     }
 }

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Law@Atilim:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Law_Atilim_jar</output-path>
+    <root id="archive" name="Law@Atilim.jar">
+      <element id="module-output" name="Law@Atilim" />
+    </root>
+  </artifact>
+</component>

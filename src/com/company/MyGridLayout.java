@@ -31,7 +31,9 @@ public class MyGridLayout {
     JTextField previousCGPAText, previousTotalCreditText, newGPAText, newCGPAText, totalACTSofSemester, totalCreditofSemester;
     JCheckBox cb0, cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, cb9;
     MyGridLayout(){
-        ff=new JFrame();
+        ff=new JFrame("Pulse v0.1");
+        ImageIcon frameIcon = new ImageIcon(this.getClass().getResource("icon.jpg"));
+        ff.setIconImage(frameIcon.getImage());
         f = new JPanel();
         f.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         b0=new JButton("Info");
@@ -66,8 +68,8 @@ public class MyGridLayout {
         JLabel label5 = new JLabel("Previous Total Credit",SwingConstants.CENTER);
         JLabel label6 = new JLabel("New GPA",SwingConstants.CENTER);
         JLabel label7 = new JLabel("New CGPA",SwingConstants.CENTER);
-        JLabel label8 = new JLabel("Implemented by inc0ming",SwingConstants.CENTER);
-        JLabel label9 = new JLabel("Atılım University since 1996", SwingConstants.CENTER);
+        JLabel label8 = new JLabel("Implemented by F.Buyrukoğlu",SwingConstants.CENTER);
+        JLabel label9 = new JLabel("Faculty of Law", SwingConstants.CENTER);
         JLabel label10 = new JLabel("Taken Before", SwingConstants.CENTER);
         JLabel label11 = new JLabel("Total ACTS of Semester", SwingConstants.CENTER);
         JLabel label12 = new JLabel("Old Grade", SwingConstants.CENTER);
@@ -142,7 +144,7 @@ public class MyGridLayout {
 
         f.add(label13);f.add(label11);f.add(label4);f.add(label5);f.add(label6);f.add(label7);
         f.add(totalCreditofSemester);f.add(totalACTSofSemester);f.add(previousCGPAText);f.add(previousTotalCreditText);f.add(newGPAText);f.add(newCGPAText);
-        f.add(label8);f.add(clearButton);f.add(calculateButton);f.add(label9);
+        f.add(new JLabel("GitHub: @inc00ming", SwingConstants.CENTER));f.add(label8);f.add(clearButton);f.add(calculateButton);f.add(label9);f.add(new JLabel("Atılım University", SwingConstants.CENTER));
         f.setAlignmentX(Component.CENTER_ALIGNMENT);
         f.setLayout(new GridLayout(14,6));
         ff.add(f);
@@ -475,6 +477,11 @@ public class MyGridLayout {
                 newGPAText.setText("0.00");
                 totalACTSofSemester.setText("0");
                 totalCreditofSemester.setText("0");
+                cb0.setSelected(false);cb1.setSelected(false);
+                cb2.setSelected(false);cb3.setSelected(false);
+                cb4.setSelected(false);cb5.setSelected(false);
+                cb6.setSelected(false);cb7.setSelected(false);
+                cb8.setSelected(false);cb9.setSelected(false);
             }
         });
 
@@ -508,8 +515,153 @@ public class MyGridLayout {
                     JOptionPane.showMessageDialog(f, "You add same courses, please remove duplicates!", "Duplicate Courses",JOptionPane.ERROR_MESSAGE);
                 }
 
+                double previousCGPA = 0.0f;
+                int previousTotalCredit = 0;
+                double semesterGrandPoints = 0;
+                double totalGrandPoints = 0;
+                int allCredit = Integer.parseInt(previousTotalCreditText.getText());
+
+                try{
+                    previousCGPA = Double.parseDouble(previousCGPAText.getText());
+                    if(previousCGPA < 0){
+                        JOptionPane.showMessageDialog(f, "Previous CGPA value should be non-negative value!", "Invalid Previous CGPA",JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                catch (NumberFormatException err){
+                    JOptionPane.showMessageDialog(f, "Previous CGPA is not valid!\nIt should be non-negative value!", "Invalid Previous CGPA",JOptionPane.ERROR_MESSAGE);
+                }
+
+                try{
+                    previousTotalCredit = Integer.parseInt(previousTotalCreditText.getText());
+                    if(previousTotalCredit < 0){
+                        JOptionPane.showMessageDialog(f, "Previous total credit should be non-negative integer value!", "Invalid Previous Total Credit",JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                catch (NumberFormatException err1){
+                    JOptionPane.showMessageDialog(f, "Previous Total Credit is not valid!\nIt should be non-negative integer value!", "Invalid Previous Total Credit",JOptionPane.ERROR_MESSAGE);
+                }
+
+                totalGrandPoints = previousTotalCredit * previousCGPA;
+                System.out.println(totalGrandPoints);
+                if(cb0.isSelected()){
+                    totalGrandPoints += (((Grade)grade0.getItemAt(grade0.getSelectedIndex())).getValue() - ((Grade)ograde0.getItemAt(ograde0.getSelectedIndex())).getValue()) * Integer.parseInt(credit0.getText());
+                    semesterGrandPoints += ((Grade)grade0.getItemAt(grade0.getSelectedIndex())).getValue() * Integer.parseInt(credit0.getText());
+                    //System.out.println(totalGrandPoints);
+                }
+                else{
+                    semesterGrandPoints += ((Grade)grade0.getItemAt(grade0.getSelectedIndex())).getValue() * Integer.parseInt(credit0.getText());
+                    totalGrandPoints += ((Grade)grade0.getItemAt(grade0.getSelectedIndex())).getValue() * Integer.parseInt(credit0.getText());
+                    allCredit += Integer.parseInt(credit0.getText());
+                }
+
+                if(cb1.isSelected()){
+                    totalGrandPoints += (((Grade)grade1.getItemAt(grade1.getSelectedIndex())).getValue() - ((Grade)ograde1.getItemAt(ograde1.getSelectedIndex())).getValue()) * Integer.parseInt(credit1.getText());
+                    semesterGrandPoints += ((Grade)grade1.getItemAt(grade1.getSelectedIndex())).getValue() * Integer.parseInt(credit1.getText());
+                    //System.out.println(totalGrandPoints);
+                }
+                else{
+                    semesterGrandPoints += ((Grade)grade1.getItemAt(grade1.getSelectedIndex())).getValue() * Integer.parseInt(credit1.getText());
+                    totalGrandPoints += ((Grade)grade1.getItemAt(grade1.getSelectedIndex())).getValue() * Integer.parseInt(credit1.getText());
+                    allCredit += Integer.parseInt(credit1.getText());
+                }
+
+                if(cb2.isSelected()){
+                    totalGrandPoints += (((Grade)grade2.getItemAt(grade2.getSelectedIndex())).getValue() - ((Grade)ograde2.getItemAt(ograde2.getSelectedIndex())).getValue()) * Integer.parseInt(credit2.getText());
+                    semesterGrandPoints += ((Grade)grade2.getItemAt(grade2.getSelectedIndex())).getValue() * Integer.parseInt(credit2.getText());
+                    //System.out.println(totalGrandPoints);
+                }
+                else{
+                    semesterGrandPoints += ((Grade)grade2.getItemAt(grade2.getSelectedIndex())).getValue() * Integer.parseInt(credit2.getText());
+                    totalGrandPoints += ((Grade)grade2.getItemAt(grade2.getSelectedIndex())).getValue() * Integer.parseInt(credit2.getText());
+                    allCredit += Integer.parseInt(credit2.getText());
+                }
+
+                if(cb3.isSelected()){
+                    totalGrandPoints += (((Grade)grade3.getItemAt(grade3.getSelectedIndex())).getValue() - ((Grade)ograde3.getItemAt(ograde3.getSelectedIndex())).getValue()) * Integer.parseInt(credit3.getText());
+                    semesterGrandPoints += ((Grade)grade3.getItemAt(grade3.getSelectedIndex())).getValue() * Integer.parseInt(credit3.getText());
+                    //System.out.println(totalGrandPoints);
+                }
+                else{
+                    semesterGrandPoints += ((Grade)grade3.getItemAt(grade3.getSelectedIndex())).getValue() * Integer.parseInt(credit3.getText());
+                    totalGrandPoints += ((Grade)grade3.getItemAt(grade3.getSelectedIndex())).getValue() * Integer.parseInt(credit3.getText());
+                    allCredit += Integer.parseInt(credit3.getText());
+                }
+
+                if(cb4.isSelected()){
+                    totalGrandPoints += (((Grade)grade4.getItemAt(grade4.getSelectedIndex())).getValue() - ((Grade)ograde4.getItemAt(ograde4.getSelectedIndex())).getValue()) * Integer.parseInt(credit4.getText());
+                    semesterGrandPoints += ((Grade)grade4.getItemAt(grade4.getSelectedIndex())).getValue() * Integer.parseInt(credit4.getText());
+                    //System.out.println(totalGrandPoints);
+                }
+                else{
+                    semesterGrandPoints += ((Grade)grade4.getItemAt(grade4.getSelectedIndex())).getValue() * Integer.parseInt(credit4.getText());
+                    totalGrandPoints += ((Grade)grade4.getItemAt(grade4.getSelectedIndex())).getValue() * Integer.parseInt(credit4.getText());
+                    allCredit += Integer.parseInt(credit4.getText());
+                }
+
+                if(cb5.isSelected()){
+                    totalGrandPoints += (((Grade)grade5.getItemAt(grade5.getSelectedIndex())).getValue() - ((Grade)ograde5.getItemAt(ograde5.getSelectedIndex())).getValue()) * Integer.parseInt(credit5.getText());
+                    semesterGrandPoints += ((Grade)grade5.getItemAt(grade5.getSelectedIndex())).getValue() * Integer.parseInt(credit5.getText());
+                    //System.out.println(totalGrandPoints);
+                }
+                else{
+                    semesterGrandPoints += ((Grade)grade5.getItemAt(grade5.getSelectedIndex())).getValue() * Integer.parseInt(credit5.getText());
+                    totalGrandPoints += ((Grade)grade5.getItemAt(grade5.getSelectedIndex())).getValue() * Integer.parseInt(credit5.getText());
+                    allCredit += Integer.parseInt(credit5.getText());
+                }
+
+                if(cb6.isSelected()){
+                    totalGrandPoints += (((Grade)grade6.getItemAt(grade6.getSelectedIndex())).getValue() - ((Grade)ograde6.getItemAt(ograde6.getSelectedIndex())).getValue()) * Integer.parseInt(credit6.getText());
+                    semesterGrandPoints += ((Grade)grade6.getItemAt(grade6.getSelectedIndex())).getValue() * Integer.parseInt(credit6.getText());
+                    //System.out.println(totalGrandPoints);
+                }
+                else{
+                    semesterGrandPoints += ((Grade)grade6.getItemAt(grade6.getSelectedIndex())).getValue() * Integer.parseInt(credit6.getText());
+                    totalGrandPoints += ((Grade)grade6.getItemAt(grade6.getSelectedIndex())).getValue() * Integer.parseInt(credit6.getText());
+                    allCredit += Integer.parseInt(credit6.getText());
+                }
+
+                if(cb7.isSelected()){
+                    totalGrandPoints += (((Grade)grade7.getItemAt(grade7.getSelectedIndex())).getValue() - ((Grade)ograde7.getItemAt(ograde7.getSelectedIndex())).getValue()) * Integer.parseInt(credit7.getText());
+                    semesterGrandPoints += ((Grade)grade7.getItemAt(grade7.getSelectedIndex())).getValue() * Integer.parseInt(credit7.getText());
+                    //System.out.println(totalGrandPoints);
+                }
+                else{
+                    semesterGrandPoints += ((Grade)grade7.getItemAt(grade7.getSelectedIndex())).getValue() * Integer.parseInt(credit7.getText());
+                    totalGrandPoints += ((Grade)grade7.getItemAt(grade7.getSelectedIndex())).getValue() * Integer.parseInt(credit7.getText());
+                    allCredit += Integer.parseInt(credit7.getText());
+                }
+
+                if(cb8.isSelected()){
+                    totalGrandPoints += (((Grade)grade8.getItemAt(grade8.getSelectedIndex())).getValue() - ((Grade)ograde8.getItemAt(ograde8.getSelectedIndex())).getValue()) * Integer.parseInt(credit8.getText());
+                    semesterGrandPoints += ((Grade)grade8.getItemAt(grade8.getSelectedIndex())).getValue() * Integer.parseInt(credit8.getText());
+                    //System.out.println(totalGrandPoints);
+                }
+                else{
+                    semesterGrandPoints += ((Grade)grade8.getItemAt(grade8.getSelectedIndex())).getValue() * Integer.parseInt(credit8.getText());
+                    totalGrandPoints += ((Grade)grade8.getItemAt(grade8.getSelectedIndex())).getValue() * Integer.parseInt(credit8.getText());
+                    allCredit += Integer.parseInt(credit8.getText());
+                }
+
+                if(cb9.isSelected()){
+                    totalGrandPoints += (((Grade)grade9.getItemAt(grade9.getSelectedIndex())).getValue() - ((Grade)ograde9.getItemAt(ograde9.getSelectedIndex())).getValue()) * Integer.parseInt(credit9.getText());
+                    semesterGrandPoints += ((Grade)grade9.getItemAt(grade9.getSelectedIndex())).getValue() * Integer.parseInt(credit9.getText());
+                    //System.out.println(totalGrandPoints);
+                }
+                else{
+                    semesterGrandPoints += ((Grade)grade9.getItemAt(grade9.getSelectedIndex())).getValue() * Integer.parseInt(credit9.getText());
+                    totalGrandPoints += ((Grade)grade9.getItemAt(grade9.getSelectedIndex())).getValue() * Integer.parseInt(credit9.getText());
+                    allCredit += Integer.parseInt(credit9.getText());
+                }
+
+                System.out.println(semesterGrandPoints);
+                System.out.println(totalGrandPoints);
+                double newGPAValue = semesterGrandPoints / Integer.parseInt(totalCreditofSemester.getText());
+                double newCGPAValue = totalGrandPoints / allCredit;
+                newGPAText.setText(String.format("%.2f", newGPAValue));
+                newCGPAText.setText(String.format("%.2f", newCGPAValue));
             }
         });
+
 
         cb0.addItemListener(new ItemListener() {
             @Override
